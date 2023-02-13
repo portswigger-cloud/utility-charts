@@ -1,0 +1,26 @@
+annotations:
+  category: Infrastructure
+  licenses: MIT
+apiVersion: v2
+appVersion: 0.31.2
+dependencies:
+  - name: common
+    version: 2.2.3
+    repository: https://charts.bitnami.com/bitnami
+description: Jaeger is a distributed tracing system. It is used for monitoring and troubleshooting microservices-based distributed systems.
+home: https://github.com/portswigger-cloud/utility-charts/tree/main/charts/grafana-agent-config
+icon:
+keywords:
+  - grafana-agent
+  - metrics
+  - logging
+  - tracing
+  - monitoring
+maintainers:
+  - name: PortSwigger Cloud
+    url: https://github.com/portswigger-cloud/utility-charts
+name: grafana-agent-config
+sources:
+  - https://github.com/jaegertracing/jaeger
+  - https://www.jaegertracing.io/
+version: 1.0.2

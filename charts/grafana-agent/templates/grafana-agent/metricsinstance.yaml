@@ -1,0 +1,23 @@
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: MetricsInstance
+metadata:
+  name: observability-prod # TODO:  Make this a variable
+  namespace: {{ .Release.Namespace }}
+  labels:
+    agent: {{ .Release.Name }}-metrics
+spec:
+  remoteWrite:
+  - url: https://metrics.observability-prod.cloud.portswigger.com/api/v1/push # TODO:  Make this a variable
+    basicAuth:
+      username:
+        name: observability-auth
+        key: username
+      password:
+        name: observability-auth
+        key: password
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector: {}
+  podMonitorNamespaceSelector: {}
+  podMonitorSelector: {}
+  probeNamespaceSelector: {}
+  probeSelector: {}

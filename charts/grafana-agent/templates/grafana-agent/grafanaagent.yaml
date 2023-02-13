@@ -1,0 +1,100 @@
+{{- if .Values.grafanaAgent.enabled }}
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: GrafanaAgent
+metadata:
+  name: {{ template grafana-agent.grafanaAgent.fullname" . }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels: {{- include grafana-agent.grafanaAgent.labels" . | nindent 4 }}
+    {{- if .Values.commonLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.commonLabels "context" $ ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.grafanaAgent.affinity }}
+  affinity: {{- include "common.tplvalues.render" (dict "value" .Values.grafanaAgent.affinity "context" $) | nindent 4 }}
+  {{- else }}
+  affinity:
+    {{- if not (empty .Values.grafanaAgent.podAffinityPreset) }}
+    podAffinity: {{- include "common.affinities.pods" (dict "type" .Values.grafanaAgent.podAffinityPreset "component" "grafanaAgent" "context" $) | nindent 6 }}
+    {{- end }}
+    {{- if not (empty .Values.grafanaAgent.podAntiAffinityPreset) }}
+    podAntiAffinity: {{- include "common.affinities.pods" (dict "type" .Values.grafanaAgent.podAntiAffinityPreset "component" "grafanaAgent" "context" $) | nindent 6 }}
+    {{- end }}
+    {{- if not (empty .Values.grafanaAgent.nodeAffinityPreset.values) }}
+    nodeAffinity: {{- include "common.affinities.nodes" (dict "type" .Values.grafanaAgent.nodeAffinityPreset.type "key" .Values.grafanaAgent.nodeAffinityPreset.key "values" .Values.grafanaAgent.nodeAffinityPreset.values) | nindent 6 }}
+    {{- end }}
+  {{- end }}
+  # TODO: apiServer
+  {{- if .Values.grafanaAgent.configMaps }}
+  configMaps: {{- include "common.tplvalues.render" (dict "value" .Values.grafanaAgent.configMaps "context" $) | nindent 4 }}
+  {{- end }}
+  {{- if .Values.grafanaAgent.containers }}
+  containers:
+    {{- include "common.tplvalues.render" (dict "value" .Values.grafanaAgent.containers "context" $) | nindent 4 }}
+  {{- end }}
+  disableReporting: {{ .Values.grafanaAgent.disableReporting }}
+  disableSupportBundle: {{ .Values.grafanaAgent.disableSupportBundle }}
+  enableConfigReadAPI: {{ .Values.grafanaAgent.enableConfigReadAPI }}
+  {{- if .Values.grafanaAgent.image }}
+  image: {{ template "grafana-agent.grafanaAgent.image" . }}
+  {{- end }}
+  {{- include "grafana-agent.imagePullSecrets" . | indent 2 }}
+  {{- if .Values.grafanaAgent.initContainers }}
+  initContainers:
+    {{- include "common.tplvalues.render" (dict "value" .Values.grafanaAgent.initContainers "context" $) | nindent 4 }}
+  {{- end }}
+  # TODO: integrations
+  logFormat: {{ .Values.grafanaAgent.logFormat }}
+  logLevel: {{ .Values.grafanaAgent.logLevel }}
+  # TODO: logs
+  # TODO: metrics
+  {{- if .Values.grafanaAgent.nodeSelector }}
+  nodeSelector: {{- include "common.tplvalues.render" (dict "value" .Values.grafanaAgent.nodeSelector "context" $) | nindent 4 }}
+  {{- end }}
+  paused: {{ .Values.grafanaAgent.paused }}
+  {{- if or .Values.grafanaAgent.podMetadata.labels .Values.grafanaAgent.podMetadata.annotations (eq .Values.grafanaAgent.podAntiAffinityPreset "soft") (eq .Values.grafanaAgent.podAntiAffinityPreset "hard") }}
+  podMetadata:
+    labels:
+    {{- if .Values.grafanaAgent.podMetadata.labels }}
+    {{- include "common.tplvalues.render" (dict "value" .Values.grafanaAgent.podMetadata.labels "context" $) | nindent 6 }}
+    {{- end }}
+    {{- if or (eq .Values.grafanaAgent.podAntiAffinityPreset "soft") (eq .Values.grafanaAgent.podAntiAffinityPreset "hard") }}
+    {{- include "grafana-agent.grafanaAgent.matchLabels" . | nindent 6 }}
+    {{- end }}
+    {{- if .Values.grafanaAgent.podMetadata.annotations }}
+    annotations:
+    {{- include "common.tplvalues.render" (dict "value" .Values.grafanaAgent.podMetadata.annotations "context" $) | nindent 6 }}
+    {{- end }}
+  {{- end }}
+  portName: "{{ .Values.grafanaAgent.portName }}"
+  {{- if .Values.grafanaAgent.priorityClassName }}
+  priorityClassName: {{ .Values.grafanaAgent.priorityClassName }}
+  {{- end }}
+  {{- if .Values.grafanaAgent.resources }}
+  resources: {{- toYaml .Values.grafanaAgent.resources | nindent 4 }}
+  {{- end }}
+  serviceAccountName: {{ template "grafana-agent.grafanaAgent.serviceAccountName" . }}
+  # TODO: storage
+
+
+
+
+  image: grafana/agent:v0.31.2
+  logLevel: info
+  serviceAccountName: {{ .Release.Name }}
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+  metrics:
+    instanceSelector:
+      matchLabels:
+        agent: {{ .Release.Name }}-metrics
+    externalLabels:
+      source_account: observability-prod # TODO:  Make this a variable
+  logs:
+    instanceSelector:
+      matchLabels:
+        agent: {{ .Release.Name }}-logs
+{{- end }}
