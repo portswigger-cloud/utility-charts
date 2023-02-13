@@ -1,0 +1,24 @@
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: GrafanaAgent
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  image: grafana/agent:v0.31.2
+  logLevel: info
+  serviceAccountName: {{ .Release.Name }}
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+  metrics:
+    instanceSelector:
+      matchLabels:
+        agent: {{ .Release.Name }}-metrics
+    externalLabels:
+      source_account: observability-prod # TODO:  Make this a variable
+  logs:
+    instanceSelector:
+      matchLabels:
+        agent: {{ .Release.Name }}-logs

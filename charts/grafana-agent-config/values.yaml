@@ -1,0 +1,93 @@
+## @section Common parameters
+##
+
+## @param kubeVersion Force target Kubernetes version (using Helm capabilities if not set)
+##
+kubeVersion: ""
+## @param nameOverride String to partially override `kube-prometheus.name` template with a string (will prepend the release name)
+##
+nameOverride: ""
+## @param fullnameOverride String to fully override `kube-prometheus.fullname` template with a string
+##
+fullnameOverride: ""
+## @param namespaceOverride String to fully override common.names.namespace
+##
+namespaceOverride: ""
+## @param commonAnnotations Annotations to add to all deployed objects
+##
+commonAnnotations: {}
+## @param commonLabels Labels to add to all deployed objects
+##
+commonLabels: {}
+## @param extraDeploy Array of extra objects to deploy with the release
+##
+extraDeploy: []
+## @param clusterDomain Kubernetes cluster domain name
+##
+clusterDomain: cluster.local
+
+## @section GrafanaAgent Parameters
+##
+
+## Deploy a GrafanaAgent instance
+##
+grafanaAgent:
+  ## @param grafanaAgent.enabled Deploy GrafanaAgent to the cluster
+  ##
+  enabled: true
+  ## GrafanaAgent image version
+  ## ref: https://hub.docker.com/r/grafana/agent
+  ## @param grafanaaAgent.image.registry Grafana Agent image registry
+  ## @param grafanaaAgent.image.repository Grafana Agent image repository
+  ## @param grafanaaAgent.image.tag Grafana Agent image tag (immutable tags are recommended)
+  ## @param grafanaaAgent.image.digest Grafana Agent image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+  ## @param grafanaaAgent.image.pullPolicy Grafana Agent image pull policy
+  ## @param grafanaaAgent.image.pullSecrets Grafana Agent image pull secrets
+  ##
+  image:
+    registry: docker.io
+    repository: grafana/agent
+    tag: v0.31.2
+    digest: ""
+    ## Specify a imagePullPolicy
+    ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+    ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+    ##
+    pullPolicy: IfNotPresent
+    ## Optionally specify an array of imagePullSecrets.
+    ## Secrets must be manually created in the namespace.
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ## e.g:
+    ## pullSecrets:
+    ##   - myRegistryKeySecretName
+    ##
+    pullSecrets: []
+  ## Service account for GrafanaAgent to use.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+  ##
+  serviceAccount:
+    ## @param grafanaAgent.serviceAccount.create Specify whether to create a ServiceAccount for GrafanaAgent
+    ##
+    create: true
+    ## @param grafanaAgent.serviceAccount.name The name of the ServiceAccount to create
+    ## If not set and create is true, a name is generated using the grafana-agent-config.grafanaAgent.fullname template
+    ##
+    name: ""
+    ## @param grafanaAgent.serviceAccount.annotations Additional annotations for created GrafanaAgent ServiceAccount
+    ## annotations:
+    ##   eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT:role/grafana-agent
+    ##
+    annotations: {}
+    ## @param grafanaAgent.serviceAccount.automountServiceAccountToken Automount service account token for the server service account
+    ##
+    automountServiceAccountToken: true
+
+## @section RBAC parameters
+##
+
+## Role Based Access
+## ref: https://kubernetes.io/docs/admin/authorization/rbac/
+## @param rbac.create Whether to create and use RBAC resources or not
+##
+rbac:
+  create: true

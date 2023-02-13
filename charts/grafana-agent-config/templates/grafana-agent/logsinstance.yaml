@@ -1,0 +1,21 @@
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: LogsInstance
+metadata:
+  name: observability-prod # TODO:  Make this a variable
+  namespace: {{ .Release.Namespace }}
+  labels:
+    agent: {{ .Release.Name }}-logs
+spec:
+  clients:
+  - url: https://logs.observability-prod.cloud.portswigger.com/loki/api/v1/push # TODO:  Make this a variable
+    basicAuth:
+      username:
+        name: observability-auth
+        key: username
+      password:
+        name: observability-auth
+        key: password
+    externalLabels:
+      source_account: observability-prod # TODO:  Make this a variable
+  podLogsNamespaceSelector: {}
+  podLogsSelector: {}
