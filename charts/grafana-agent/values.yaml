@@ -1,0 +1,208 @@
+## @section Global parameters
+## Global Docker image parameters
+## Please, note that this will override the image parameters, including dependencies, configured to use the global value
+## Current available global Docker image parameters: imageRegistry, imagePullSecrets and storageClass
+##
+
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+## @param global.storageClass Global StorageClass for Persistent Volume(s)
+##
+global:
+  imageRegistry: ""
+  ## E.g.
+  ## imagePullSecrets:
+  ##   - myRegistryKeySecretName
+  ##
+  imagePullSecrets: []
+  storageClass: ""
+
+## @section Common parameters
+##
+
+## @param kubeVersion Force target Kubernetes version (using Helm capabilities if not set)
+##
+kubeVersion: ""
+## @param nameOverride String to partially override `grafana-agent-config.name` template with a string (will prepend the release name)
+##
+nameOverride: ""
+## @param fullnameOverride String to fully override `grafana-agent-config.fullname` template with a string
+##
+fullnameOverride: ""
+## @param namespaceOverride String to fully override common.names.namespace
+##
+namespaceOverride: ""
+## @param commonAnnotations Annotations to add to all deployed objects
+##
+commonAnnotations: {}
+## @param commonLabels Labels to add to all deployed objects
+##
+commonLabels: {}
+## @param extraDeploy Array of extra objects to deploy with the release
+##
+extraDeploy: []
+## @param clusterDomain Kubernetes cluster domain name
+##
+clusterDomain: cluster.local
+
+## @section GrafanaAgent Parameters
+##
+
+## Deploy a GrafanaAgent instance
+##
+grafanaAgent:
+  ## @param grafanaAgent.enabled Deploy GrafanaAgent to the cluster
+  ##
+  enabled: true
+  ## GrafanaAgent image version
+  ## ref: https://hub.docker.com/r/grafana/agent
+  ## @param grafanaaAgent.image.registry Grafana Agent image registry
+  ## @param grafanaaAgent.image.repository Grafana Agent image repository
+  ## @param grafanaaAgent.image.tag Grafana Agent image tag (immutable tags are recommended)
+  ## @param grafanaaAgent.image.digest Grafana Agent image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+  ## @param grafanaaAgent.image.pullPolicy Grafana Agent image pull policy
+  ## @param grafanaaAgent.image.pullSecrets Grafana Agent image pull secrets
+  ##
+  image:
+    registry: docker.io
+    repository: grafana/agent
+    tag: v0.31.2
+    digest: ""
+    ## Specify a imagePullPolicy
+    ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+    ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+    ##
+    pullPolicy: IfNotPresent
+    ## Optionally specify an array of imagePullSecrets.
+    ## Secrets must be manually created in the namespace.
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ## e.g:
+    ## pullSecrets:
+    ##   - myRegistryKeySecretName
+    ##
+    pullSecrets: []
+  ## Service account for GrafanaAgent to use.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+  ##
+  serviceAccount:
+    ## @param grafanaAgent.serviceAccount.create Specify whether to create a ServiceAccount for GrafanaAgent
+    ##
+    create: true
+    ## @param grafanaAgent.serviceAccount.name The name of the ServiceAccount to create
+    ## If not set and create is true, a name is generated using the grafana-agent-config.grafanaAgent.fullname template
+    ##
+    name: ""
+    ## @param grafanaAgent.serviceAccount.annotations Additional annotations for created GrafanaAgent ServiceAccount
+    ## annotations:
+    ##   eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT:role/grafana-agent
+    ##
+    annotations: {}
+    ## @param grafanaAgent.serviceAccount.automountServiceAccountToken Automount service account token for the server service account
+    ##
+    automountServiceAccountToken: true
+  ## @param grafanaAgent.podAffinityPreset GrafanaAgent Pod affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
+  ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
+  ##
+  podAffinityPreset: ""
+  ## @param grafanaAgent.podAntiAffinityPreset GrafanaAgent Pod anti-affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
+  ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
+  ##
+  podAntiAffinityPreset: soft
+  ## Node affinity preset
+  ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity
+  ##
+  nodeAffinityPreset:
+    ## @param grafanaAgent.nodeAffinityPreset.type GrafanaAgent Node affinity preset type. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
+    ##
+    type: ""
+    ## @param grafanaAgent.nodeAffinityPreset.key GrafanaAgent Node label key to match Ignored if `affinity` is set.
+    ## E.g.
+    ## key: "kubernetes.io/e2e-az-name"
+    ##
+    key: ""
+    ## @param grafanaAgent.nodeAffinityPreset.values GrafanaAgent Node label values to match. Ignored if `affinity` is set.
+    ## E.g.
+    ## values:
+    ##   - e2e-az1
+    ##   - e2e-az2
+    ##
+    values: []
+  ## @param grafanaAgent.affinity GrafanaAgent Affinity for pod assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+  ## Note: grafanaAgent.podAffinityPreset, grafanaAgent.podAntiAffinityPreset, and grafanaAgent.nodeAffinityPreset will be ignored when it's set
+  ##
+  affinity: {}
+  ## @param grafanaAgent.configMaps ConfigMaps that should be mounted into the GrafanaAgent Pods
+  ##
+  configMaps: []
+  ## @param grafanaAgent.containers Containers allows injecting additional containers
+  ##
+  containers: []
+  ## @param grafanaAgent.disableReporting disables reporting of enabled feature flags to Grafana
+  ##
+  disableReporting: false
+  ## @param grafanaAgent.disableSupportBundle disableSupportBundle disables the generation of support bundles
+  ##
+  disableSupportBundle: false
+  ## @param grafanaAgent.enableConfigReadAPI enables the read API for viewing the currently running config port 8080 on the agent
+  ##
+  enableConfigReadAPI: false
+  ## @param grafanaAgent.initContainers Add additional init containers to the GrafanaAgent instance pod(s)
+  ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+  ## e.g:
+  ## initContainers:
+  ##  - name: your-image-name
+  ##    image: your-image
+  ##    imagePullPolicy: Always
+  ##    command: ['sh', '-c', 'echo "hello world"']
+  ##
+  initContainers: []
+  ## @param grafanaAgent.logLevel Log level for GrafanaAgent instance
+  ##
+  logLevel: info
+  ## @param grafanaAgent.logFormat Log format for GrafanaAgent instance
+  ##
+  logFormat: logfmt
+  ## @param grafanaAgent.nodeSelector GrafanaAgent Node labels for pod assignment
+  ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+  ##
+  nodeSelector: {}
+  ## @param grafanaAgent.paused If true, the Operator won't process any GrafanaAgent configuration changes
+  ##
+  paused: false
+  ## @param grafanaAgent.podMetadata [object] Standard object's metadata
+  ## ref: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#metadata
+  ##
+  podMetadata:
+    ## labels:
+    ##   app: grafana-agent
+    ##   k8s-app: grafana-agent
+    ##
+    labels: {}
+    annotations: {}
+  ## @param grafanaAgent.portName Port name used for the pods and governing service. This defaults to web
+  ##
+  portName: web
+  ## @param grafanaAgent.priorityClassName Priority class assigned to the Pods
+  ##
+  priorityClassName: ""
+  ## @param grafanaAgent.resources CPU/Memory resource requests/limits for node
+  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+  resources: {}
+  ## @param grafanaAgent.tolerations GrafanaAgent Tolerations for pod assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  ##
+  tolerations: []
+  ##  - key: CriticalAddonsOnly
+  ##    operator: Exists
+
+## @section RBAC parameters
+##
+
+## Role Based Access
+## ref: https://kubernetes.io/docs/admin/authorization/rbac/
+## @param rbac.create Whether to create and use RBAC resources or not
+##
+rbac:
+  create: true

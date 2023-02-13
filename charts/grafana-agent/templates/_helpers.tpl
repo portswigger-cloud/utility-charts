@@ -3,7 +3,7 @@
 Expand the name of the chart.
 We need to truncate to 50 characters due to the long names generated for pods
 */}}
-{{- define "grafana-agent-config.name" -}}
+{{- define "grafana-agent.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 50 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -12,7 +12,7 @@ Create a default fully qualified app name.
 We truncate at 26 chars due to the long names generated (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "grafana-agent-config.fullname" -}}
+{{- define "grafana-agent.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 26 | trimSuffix "-" -}}
 {{- else -}}
@@ -24,21 +24,18 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 {{- end -}}
 {{- end -}}
+{{/*
 
-{{/* Name suffixed with grafana-agent */}}
-{{- define "grafana-agent-config.grafanaAgent.name" -}}
-{{- printf "%s-grafana-agent" (include "grafana-agent-config.name" .) -}}
-{{- end -}}
-
-{{/* Fullname suffixed with grafana-agent */}}
-{{- define "grafana-agent-config.grafanaAgent.fullname" -}}
-{{- printf "%s-grafana-agent" (include "grafana-agent-config.fullname" .) -}}
+Return the proper Docker Image Registry Secret Names
+*/}}
+{{- define "grafana-agent.imagePullSecrets" -}}
+{{- include "common.images.pullSecrets" (dict "images" (list .Values.grafanaAgent.image) "global" .Values.global) -}}
 {{- end -}}
 
 {{/*
 Labels for grafanaAgent
 */}}
-{{- define "grafana-agent-config.grafanaAgent.labels" -}}
+{{- define "grafana-agent.grafanaAgent.labels" -}}
 {{- include "common.labels.standard" . }}
 app.kubernetes.io/component: grafanaAgent
 {{- end -}}
@@ -46,7 +43,7 @@ app.kubernetes.io/component: grafanaAgent
 {{/*
 matchLabels for grafanaAgent
 */}}
-{{- define "grafana-agent-config.grafanaAgent.matchLabels" -}}
+{{- define "grafana-agent.grafanaAgent.matchLabels" -}}
 {{- include "common.labels.matchLabels" . }}
 app.kubernetes.io/component: grafanaAgent
 {{- end -}}
@@ -54,7 +51,7 @@ app.kubernetes.io/component: grafanaAgent
 {{/*
 Return the proper Prometheus Image name
 */}}
-{{- define "grafana-agent-config.grafanaAgent.image" -}}
+{{- define "grafana-agent.grafanaAgent.image" -}}
 {{- include "common.images.image" (dict "imageRoot" .Values.grafanaAgent.image "global" .Values.global) -}}
 {{- end -}}
 }}
@@ -62,9 +59,9 @@ Return the proper Prometheus Image name
 {{/*
 Create the name of the grafanaAgent service account to use
 */}}
-{{- define "grafana-agent-config.grafanaAgent.serviceAccountName" -}}
+{{- define "grafana-agent.grafanaAgent.serviceAccountName" -}}
 {{- if .Values.grafanaAgent.serviceAccount.create -}}
-    {{- default (include "grafana-agent-config.grafanaAgent.fullname" .) .Values.grafanaAgent.serviceAccount.name -}}
+    {{- default (include "grafana-agent.fullname" .) .Values.grafanaAgent.serviceAccount.name -}}
 {{- else -}}
     {{- default "default" .Values.grafanaAgent.serviceAccount.name -}}
 {{- end -}}
@@ -73,7 +70,7 @@ Create the name of the grafanaAgent service account to use
 {{/*
 Compile all warnings into a single message, and call fail.
 */}}
-{{- define "grafana-agent-config.validateValues" -}}
+{{- define "grafana-agent.validateValues" -}}
 {{- $messages := list -}}
 {{- $messages := without $messages "" -}}
 {{- $message := join "\n" $messages -}}
