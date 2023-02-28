@@ -1,12 +1,12 @@
-name: Release charts
+name: Test and Release utility-charts
 
 on:
   push:
     branches:
-      - main
-    paths:
-      - .github/workflows/**
-      - charts/**
+    - main
+  pull_request:
+    branches:
+    - main
 
 jobs:
   release:
@@ -28,8 +28,20 @@ jobs:
           helm-version: "v3.11.0"
           kubectl-version: "1.24.7"
           kubectl-release-date: "2022-10-31"
+          additional-helm-plugins: >-
+            https://github.com/helm-unittest/helm-unittest
 
-      - name: Run chart-releaser
+      - name: Lint
+        run: helm lint charts/*
+
+      - name: Validate
+        run: helm validate charts/*
+
+      - name: Test
+        run: helm unittest --strict charts/*
+
+      - name: Release
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: helm/chart-releaser-action@v1.5.0
         env:
           CR_SKIP_EXISTING: "true"
