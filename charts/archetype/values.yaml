@@ -5,6 +5,7 @@ image:
 deployment:
   create: true
   kind: "Deployment"
+  replicas: 1
   labels: {}
   annotations: {}
 

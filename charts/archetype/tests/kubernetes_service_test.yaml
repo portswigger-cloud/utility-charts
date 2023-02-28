@@ -1,0 +1,10 @@
+suite: Service configuration
+release:
+  name: test-release
+templates:
+  - kubernetes/service.yaml
+tests:
+  - it: should create Service with default values
+    asserts:
+      - isKind:
+          of: Service
