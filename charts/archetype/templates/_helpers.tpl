@@ -18,7 +18,7 @@ Create chart name and version as used by the chart label.
 {{/* Shared labels used for selector*/}}
 {{/* This is an immutable field: this should not change between upgrade */}}
 {{- define "archetype.labelselector" -}}
-app.kubernetes.io/name: {{ .Chart.Name }}
+app.kubernetes.io/app: {{ template "archetype.name" . }}
 app.kubernetes.io/instance: {{ .Chart.Name }}-{{ template "archetype.name" . }}
 {{- end }}
 

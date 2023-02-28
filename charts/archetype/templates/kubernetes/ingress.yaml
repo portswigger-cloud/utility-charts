@@ -32,4 +32,4 @@ spec:
               number: {{ $portSpec.port }}
       {{- end }}
       {{- end }}
-{{- end }}
+{{- end -}}

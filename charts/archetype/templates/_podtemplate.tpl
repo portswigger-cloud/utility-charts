@@ -27,6 +27,10 @@ Outputs a pod spec for use in different resources.
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
         imagePullPolicy: Always
@@ -69,11 +73,15 @@ Outputs a pod spec for use in different resources.
           {{- toYaml .Values.securityContext | nindent 10 }}
         {{- with .Values.args }}
         args:
-        {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 10 }}
         {{- end }}
         {{- with .Values.env }}
         env:
-        {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.envFrom }}
+        envFrom:
+          {{- toYaml . | nindent 10 }}
         {{- end }}
         volumeMounts:
         - mountPath: /tmp

@@ -1,6 +1,6 @@
 image:
-  name: ""
-  tag: ""
+  name: "public.ecr.aws/nginx/nginx"
+  tag: "alpine"
 
 deployment:
   create: true
@@ -68,11 +68,23 @@ lifecycle: {}
   #     host: localhost
   #     scheme: HTTP
 
+# Pod disruption budget
+podDisruptionBudget:
+  enabled: false
+  # labels: {}
+  # annotations: {}
+  # maxUnavailable: 1
+  # maxUnavailable: 33%
+  # minAvailable: 0
+  # minAvailable: 25%
+
 args: []
 
-env: {}
+env: []
 
-envFrom: {}
+envFrom: []
+
+initContainers: []
 
 serviceAccount:
   create: true

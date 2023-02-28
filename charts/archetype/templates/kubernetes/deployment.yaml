@@ -20,7 +20,8 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
+      maxSurge: 50%
       maxUnavailable: 25%
   minReadySeconds: 5
   template: {{ template "archetype.podTemplate" . }}
-  {{- end }}
+  {{- end -}}

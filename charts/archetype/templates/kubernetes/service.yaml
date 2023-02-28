@@ -21,4 +21,4 @@ spec:
     protocol: {{ $portSpec.protocol }}
   {{- end }}
   {{- end }}
-{{- end }}
+{{- end -}}
