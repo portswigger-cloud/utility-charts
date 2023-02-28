@@ -1,7 +1,6 @@
 apiVersion: v2
 name: archetype
-
-description: A Helm "mono-chart" for deploying common application patterns
+description: A Helm "monochart" for deploying common application patterns
 
 type: application
 
