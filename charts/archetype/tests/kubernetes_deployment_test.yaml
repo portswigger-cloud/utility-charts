@@ -1,0 +1,11 @@
+suite: Deployment configuration
+templates:
+  - kubernetes/deployment.yaml
+tests:
+  - it: should create Deployment with default values
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: spec.replicas
+          value: 1

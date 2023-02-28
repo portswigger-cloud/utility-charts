@@ -1,0 +1,8 @@
+suite: Ingress configuration
+templates:
+  - kubernetes/ingress.yaml
+tests:
+  - it: should not create Ingress by default
+    asserts:
+      - hasDocuments:
+          count: 0

@@ -1,0 +1,8 @@
+suite: PodDisruptionBudget configuration
+templates:
+  - kubernetes/poddisruptionbudget.yaml
+tests:
+  - it: should not create PodDisruptionBudget by default
+    asserts:
+      - hasDocuments:
+          count: 0
