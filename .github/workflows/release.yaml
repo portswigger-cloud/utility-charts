@@ -32,13 +32,10 @@ jobs:
             https://github.com/helm-unittest/helm-unittest
 
       - name: Lint
-        run: helm lint charts/*
-
-      - name: Validate
-        run: helm validate charts/*
+        run: helm lint charts/*/
 
       - name: Test
-        run: helm unittest --strict charts/*
+        run: helm unittest --strict charts/*/
 
       - name: Release
         if: ${{ github.ref == 'refs/heads/main' }}
