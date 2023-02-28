@@ -1,0 +1,35 @@
+{{- if .Values.ingress.create -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "archetype.name" . }}
+  labels:
+    {{- include "archetype.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
+  rules:
+  - {{ if .Values.ingress.host -}}
+    host: {{ .Values.ingress.host }}
+    {{- else }}
+    {{- fail "ERROR: A unique hostname must be set if creating an ingress" -}}
+    {{- end }}
+    http:
+      paths:
+      {{- range $portName, $portSpec := .Values.ports }}
+      {{- if $portSpec.expose }}
+      - path: {{ $.Values.ingress.path }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "archetype.name" $ }}
+            port:
+              number: {{ $portSpec.port }}
+      {{- end }}
+      {{- end }}
+{{- end -}}

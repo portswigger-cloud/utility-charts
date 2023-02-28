@@ -1,0 +1,94 @@
+image:
+  name: "public.ecr.aws/nginx/nginx"
+  tag: "alpine"
+
+deployment:
+  create: true
+  kind: "Deployment"
+  labels: {}
+  annotations: {}
+
+pod:
+  annotations: {}
+  labels: {}
+  imagePullSecrets: []
+  terminationGracePeriodSeconds: 5
+  automountServiceAccountToken: false
+  securityContext:
+    fsGroup: 1000
+    fsGroupChangePolicy: "OnRootMismatch"
+
+resources:
+  cpu: "100m"
+  memory: "64Mi"
+  # Override requests / limits like:
+  requests: {}
+  limits: {}
+  # I strongly recommend you stick to using the memory and cpu options.
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+  capabilities:
+    drop:
+      - ALL
+
+healthcheck:
+  httpGet:
+    path: /
+    port: app-port
+    scheme: HTTP
+
+ports:
+  app-port:
+    port: 8080
+    protocol: TCP
+    expose: true
+
+service:
+  create: true
+
+ingress:
+  create: false
+  annotations: {}
+  className: ""
+  host: ""
+  path: "/"
+
+lifecycle: {}
+  # preStop:
+  #   exec:
+  #     command: ["/bin/sh", "-c", "sleep 40"]
+  # postStart:
+  #   httpGet:
+  #     path: /ping
+  #     port: 9000
+  #     host: localhost
+  #     scheme: HTTP
+
+# Pod disruption budget
+podDisruptionBudget:
+  enabled: false
+  # labels: {}
+  # annotations: {}
+  # maxUnavailable: 1
+  # maxUnavailable: 33%
+  # minAvailable: 0
+  # minAvailable: 25%
+
+args: []
+
+env: []
+
+envFrom: []
+
+initContainers: []
+
+serviceAccount:
+  create: true
+  annotations: {}
+  # eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/my-role
+
+extraDeploy: []
