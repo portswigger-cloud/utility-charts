@@ -1,0 +1,26 @@
+{{- if .Values.deployment.create -}}
+apiVersion: apps/v1
+kind: {{ .Values.deployment.kind }}
+metadata:
+  name: {{ template "archetype.name" . }}
+  labels:
+  {{- include "archetype.labels" . | nindent 4 }}
+  {{- with .Values.deployment.labels }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  annotations:
+  {{- with .Values.deployment.annotations }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      {{- include "archetype.labelselector" . | nindent 6 }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+  minReadySeconds: 5
+  template: {{ template "archetype.podTemplate" . }}
+  {{- end }}
