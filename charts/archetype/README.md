@@ -58,3 +58,5 @@ helm install archetype utility-charts/archetype
 | service.create | bool | `true` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
+
+---
