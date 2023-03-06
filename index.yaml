@@ -18,6 +18,21 @@ entries:
     version: 0.0.1-alpha.2
   - apiVersion: v2
     appVersion: 0.0.0
+    created: "2023-03-06T15:31:45.969899649Z"
+    description: A Helm "monochart" for deploying common application patterns
+    digest: 2ba1d38f6489b71a2654c3471b602a53c9ee2c0448995c75784d2730c806041c
+    keywords:
+    - app
+    - cron
+    - deployment
+    - statefulset
+    name: archetype
+    type: application
+    urls:
+    - https://github.com/portswigger-cloud/utility-charts/releases/download/archetype-0.0.1-alpha.2/archetype-0.0.1-alpha.2.tgz
+    version: 0.0.1-alpha.2
+  - apiVersion: v2
+    appVersion: 0.0.0
     created: "2023-02-28T15:42:32.748259486Z"
     description: A Helm "monochart" for deploying common application patterns
     digest: 05410a81e009e2ec0e630d3cc3119c0b53ea6a49a7f5b97bb140121a864fa922
@@ -31,4 +46,13 @@ entries:
     urls:
     - https://github.com/portswigger-cloud/utility-charts/releases/download/archetype-0.0.1-alpha.1/archetype-0.0.1-alpha.1.tgz
     version: 0.0.1-alpha.1
-generated: "2023-03-06T11:16:07.110603152Z"
+  rds-ca-certs:
+  - apiVersion: v2
+    created: "2023-03-06T15:31:46.201077138Z"
+    description: RDS CA cert file as a ConfigMap
+    digest: 328fcac66a93d8707f1614715532b1fb698205e30029c67c7ae45df86b6544e7
+    name: rds-ca-certs
+    urls:
+    - https://github.com/portswigger-cloud/utility-charts/releases/download/rds-ca-certs-0.0.1/rds-ca-certs-0.0.1.tgz
+    version: 0.0.1
+generated: "2023-03-06T15:31:46.201101039Z"
