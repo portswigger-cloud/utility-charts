@@ -1,0 +1,19 @@
+suite: ConfigMap configuration
+templates:
+  - configmap.yaml
+release:
+  name: dinosaur-ca-certs
+  namespace: bedrock-system
+tests:
+  - it: should have a single ConfigMap document with expected name and namespace
+    asserts:
+      - isKind:
+          of: ConfigMap
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: metadata.name
+          value: dinosaur-ca-certs
+      - equal:
+          path: metadata.namespace
+          value: bedrock-system

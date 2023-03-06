@@ -37,11 +37,13 @@ Outputs a pod spec for use in different resources.
         name: {{ template "archetype.name" . }}
         resources:
           requests:
-            memory: {{ default .Values.resources.memory .Values.resources.requests.memory }}
-            cpu: {{ default .Values.resources.cpu .Values.resources.requests.cpu }}
+            memory: {{ default .Values.resources.memory .Values.resources.requests.memory | quote }}
+            cpu: {{ default .Values.resources.cpu .Values.resources.requests.cpu | quote }}
           limits:
-            memory: {{ default .Values.resources.memory .Values.resources.limits.memory }}
-            cpu: {{ default .Values.resources.cpu .Values.resources.limits.cpu }}
+            memory: {{ default .Values.resources.memory .Values.resources.limits.memory | quote }}
+            {{- if .Values.resources.limits.cpu }}
+            cpu: {{ .Values.resources.limits.cpu | quote }}
+            {{- end }}
         ports:
         {{- range $portName, $portSpec := .Values.ports }}
           - name: {{ $portName }}
