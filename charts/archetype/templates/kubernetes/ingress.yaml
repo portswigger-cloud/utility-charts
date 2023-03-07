@@ -23,13 +23,15 @@ spec:
       paths:
       {{- range $portName, $portSpec := .Values.ports }}
       {{- if $portSpec.expose }}
-      - path: {{ $.Values.ingress.path }}
+      {{- range $.Values.ingress.paths }}
+      - path: {{ . }}
         pathType: Prefix
         backend:
           service:
             name: {{ include "archetype.name" $ }}
             port:
               number: {{ $portSpec.port }}
+      {{- end }}
       {{- end }}
       {{- end }}
 {{- end -}}

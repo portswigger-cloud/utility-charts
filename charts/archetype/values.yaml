@@ -56,7 +56,8 @@ ingress:
   annotations: {}
   className: ""
   host: ""
-  path: "/"
+  paths:
+  - "/"
 
 lifecycle: {}
   # preStop:

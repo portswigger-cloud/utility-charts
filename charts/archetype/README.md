@@ -1,6 +1,6 @@
 # archetype
 
-![Version: 0.0.1-alpha.3](https://img.shields.io/badge/Version-0.0.1--alpha.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.0](https://img.shields.io/badge/AppVersion-0.0.0-informational?style=flat-square)
+![Version: 0.0.1-alpha.4](https://img.shields.io/badge/Version-0.0.1--alpha.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.0](https://img.shields.io/badge/AppVersion-0.0.0-informational?style=flat-square)
 
 A Helm "monochart" for deploying common application patterns
 
@@ -32,7 +32,7 @@ helm install archetype utility-charts/archetype
 | ingress.className | string | `""` |  |
 | ingress.create | bool | `false` |  |
 | ingress.host | string | `""` |  |
-| ingress.path | string | `"/"` |  |
+| ingress.paths[0] | string | `"/"` |  |
 | initContainers | list | `[]` |  |
 | lifecycle | object | `{}` |  |
 | pod.annotations | object | `{}` |  |
