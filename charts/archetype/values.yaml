@@ -93,3 +93,11 @@ serviceAccount:
   # eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/my-role
 
 extraDeploy: []
+
+podLogs:
+  enabled: false
+
+podMonitor:
+  enabled: false
+  path: /prometheus/metrics
+  port: app-port

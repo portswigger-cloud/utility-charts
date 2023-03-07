@@ -1,0 +1,29 @@
+suite: PodLogs configuration
+templates:
+  - grafana-agent-operator/podlogs.yaml
+tests:
+  - it: should not create PodLogs by default
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: should create PodLogs with correct selectors when enabled
+    release:
+      name: testing
+      namespace: testns
+    set:
+      podLogs.enabled: true
+    asserts:
+      - isKind:
+          of: PodLogs
+      - equal:
+          path: metadata.name
+          value: testing
+      - equal:
+          path: spec.namespaceSelector.matchNames
+          value:
+            - testns
+      - equal:
+          path: spec.selector.matchLabels
+          value:
+            app.kubernetes.io/app: testing
+            app.kubernetes.io/instance: archetype-testing

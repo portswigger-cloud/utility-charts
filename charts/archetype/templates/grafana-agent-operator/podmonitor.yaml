@@ -1,0 +1,21 @@
+{{- if .Values.podMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ template "archetype.name" . }}
+spec:
+  jobLabel: {{ .Release.Namespace }}-{{ template "archetype.name" . }}
+  namespaceSelector:
+    matchNames:
+    -  {{ .Release.Namespace }}
+  podMetricsEndpoints:
+  - interval: 15s
+    path: {{ .Values.podMonitor.path }}
+    port: {{ .Values.podMonitor.port }}
+  podTargetLabels:
+  - app.kubernetes.io/app
+  - app.kubernetes.io/version
+  selector:
+    matchLabels:
+      {{- include "archetype.labelselector" . | nindent 6 }}
+{{- end }}

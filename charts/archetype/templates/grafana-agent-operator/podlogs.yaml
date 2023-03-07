@@ -1,0 +1,15 @@
+{{- if .Values.podLogs.enabled }}
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: PodLogs
+metadata:
+  name: {{ template "archetype.name" . }}
+spec:
+  pipelineStages:
+  - docker: {}
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- include "archetype.labelselector" . | nindent 6 }}
+{{- end }}
