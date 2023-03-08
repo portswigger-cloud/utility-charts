@@ -53,7 +53,7 @@ Usage:
 The name of the service account to use
 */}}
 {{- define "archetype.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
+{{- if .Values.serviceAccount.enabled }}
 {{- default (include "archetype.name" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
