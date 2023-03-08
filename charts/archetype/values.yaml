@@ -3,7 +3,7 @@ image:
   tag: "alpine"
 
 deployment:
-  create: true
+  enabled: true
   kind: "Deployment"
   replicas: 1
   labels: {}
@@ -49,10 +49,10 @@ ports:
     expose: true
 
 service:
-  create: true
+  enabled: true
 
 ingress:
-  create: false
+  enabled: false
   annotations: {}
   className: ""
   host: ""
@@ -89,7 +89,7 @@ envFrom: []
 initContainers: []
 
 serviceAccount:
-  create: true
+  enabled: true
   annotations: {}
   # eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/my-role
 
@@ -102,3 +102,37 @@ podMonitor:
   enabled: false
   path: /prometheus/metrics
   port: app-port
+
+networkPolicy:
+  enabled: true
+
+  ingress: []
+
+  egress: []
+  # - to:
+  #     - ipBlock:
+  #           cidr: 10.1.0.0/24
+  #   ports:
+  #     - protocol: TCP
+  #       port: 5432
+
+  ingressControllerNamespaceSelector:
+    matchLabels:
+      kubernetes.io/metadata.name: ingress
+
+  ingressControllerPodSelector:
+    matchLabels:
+      app.kubernetes.io/name: nginx
+
+ciliumNetworkPolicy:
+  enabled: false
+
+  ingress: []
+
+  egress: []
+  # - toFQDNs:
+  #   - matchName: "my-remote-service.com"
+
+  ingressControllerEndpointMatchLabels:
+    k8s:io.kubernetes.pod.namespace: ingress
+    app.kubernetes.io/name: nginx

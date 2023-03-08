@@ -1,6 +1,6 @@
 # archetype
 
-![Version: 0.0.1-alpha.4](https://img.shields.io/badge/Version-0.0.1--alpha.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.0](https://img.shields.io/badge/AppVersion-0.0.0-informational?style=flat-square)
+![Version: 0.0.1-alpha.5](https://img.shields.io/badge/Version-0.0.1--alpha.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.0](https://img.shields.io/badge/AppVersion-0.0.0-informational?style=flat-square)
 
 A Helm "monochart" for deploying common application patterns
 
@@ -15,8 +15,13 @@ helm install archetype utility-charts/archetype
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | args | list | `[]` |  |
+| ciliumNetworkPolicy.egress | list | `[]` |  |
+| ciliumNetworkPolicy.enabled | bool | `false` |  |
+| ciliumNetworkPolicy.ingress | list | `[]` |  |
+| ciliumNetworkPolicy.ingressControllerEndpointMatchLabels."app.kubernetes.io/name" | string | `"nginx"` |  |
+| ciliumNetworkPolicy.ingressControllerEndpointMatchLabels."k8s:io.kubernetes.pod.namespace" | string | `"ingress"` |  |
 | deployment.annotations | object | `{}` |  |
-| deployment.create | bool | `true` |  |
+| deployment.enabled | bool | `true` |  |
 | deployment.kind | string | `"Deployment"` |  |
 | deployment.labels | object | `{}` |  |
 | deployment.replicas | int | `1` |  |
@@ -30,11 +35,16 @@ helm install archetype utility-charts/archetype
 | image.tag | string | `"alpine"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
-| ingress.create | bool | `false` |  |
+| ingress.enabled | bool | `false` |  |
 | ingress.host | string | `""` |  |
 | ingress.paths[0] | string | `"/"` |  |
 | initContainers | list | `[]` |  |
 | lifecycle | object | `{}` |  |
+| networkPolicy.egress | list | `[]` |  |
+| networkPolicy.enabled | bool | `true` |  |
+| networkPolicy.ingress | list | `[]` |  |
+| networkPolicy.ingressControllerNamespaceSelector.matchLabels."kubernetes.io/metadata.name" | string | `"ingress"` |  |
+| networkPolicy.ingressControllerPodSelector.matchLabels."app.kubernetes.io/name" | string | `"nginx"` |  |
 | pod.annotations | object | `{}` |  |
 | pod.automountServiceAccountToken | bool | `false` |  |
 | pod.imagePullSecrets | list | `[]` |  |
@@ -59,8 +69,8 @@ helm install archetype utility-charts/archetype
 | securityContext.readOnlyRootFilesystem | bool | `true` |  |
 | securityContext.runAsNonRoot | bool | `true` |  |
 | securityContext.runAsUser | int | `1000` |  |
-| service.create | bool | `true` |  |
+| service.enabled | bool | `true` |  |
 | serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.create | bool | `true` |  |
+| serviceAccount.enabled | bool | `true` |  |
 
 ---

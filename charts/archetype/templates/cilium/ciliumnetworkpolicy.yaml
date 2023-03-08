@@ -1,0 +1,51 @@
+{{- if .Values.ciliumNetworkPolicy.enabled -}}
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: {{ include "archetype.name" . }}
+spec:
+  endpointSelector:
+    matchLabels:
+      {{- include "archetype.labelselector" . | nindent 6 }}
+  ingress:
+  - fromEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: {{ .Release.Namespace }}
+        {{- include "archetype.labelselector" . | nindent 8 }}
+    toPorts:
+    - ports:
+      {{- range $portName, $portSpec := .Values.ports }}
+      - protocol: {{ $portSpec.protocol }}
+        port: {{ $portSpec.port }}
+      {{- end }}
+  {{- if .Values.ingress.enabled }}
+  - fromEndpoints:
+    - matchLabels: {{ toYaml .Values.ciliumNetworkPolicy.ingressControllerEndpointMatchLabels | nindent 8 }}
+    toPorts:
+    - ports:
+      {{- range $portName, $portSpec := .Values.ports }}
+      {{- if $portSpec.expose }}
+      - protocol: {{ $portSpec.protocol }}
+        port: {{ $portSpec.port }}
+      {{- end }}
+      {{- end }}
+  {{- end }}
+  {{- range .Values.ciliumNetworkPolicy.ingress }}
+  - {{ toYaml . | nindent 4 | trim }}
+  {{- end }}
+  egress:
+  - toEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: kube-system
+        k8s-app: kube-dns
+    toPorts:
+    - ports:
+      - port: 53
+        protocol: ANY
+      rules:
+        dns:
+        - matchPattern: "*"
+  {{- range .Values.ciliumNetworkPolicy.egress }}
+  - {{ toYaml . | nindent 4 | trim }}
+  {{- end }}
+{{- end }}

@@ -1,0 +1,8 @@
+suite: CiliumNetworkPolicy configuration
+templates:
+  - cilium/ciliumnetworkpolicy.yaml
+tests:
+  - it: should not create CiliumNetworkPolicy by default
+    asserts:
+      - hasDocuments:
+          count: 0
