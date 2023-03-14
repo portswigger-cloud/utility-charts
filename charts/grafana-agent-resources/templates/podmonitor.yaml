@@ -13,8 +13,7 @@ spec:
   podMetricsEndpoints:
   - interval: 15s
     path: {{ $config.podMonitor.path }}
-    port: {{ $config.podMonitor.port }}
-
+    port: {{ $config.podMonitor.port | quote }}
   podTargetLabels:
   - app.kubernetes.io/name
   - app.kubernetes.io/app

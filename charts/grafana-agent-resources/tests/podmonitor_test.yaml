@@ -16,6 +16,8 @@ tests:
   asserts:
   - hasDocuments:
       count: 1
+  - isKind:
+      of: PodMonitor
   - equal:
       path: metadata.name
       value: traefik
@@ -28,7 +30,7 @@ tests:
       value:
       - interval: 15s
         path: /metrics
-        port: 9100
+        port: "9100"
   - equal:
       path: spec.selector.matchLabels
       value:
