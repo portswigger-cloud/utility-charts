@@ -136,6 +136,21 @@ entries:
     urls:
     - https://github.com/portswigger-cloud/utility-charts/releases/download/archetype-0.0.1-alpha.1/archetype-0.0.1-alpha.1.tgz
     version: 0.0.1-alpha.1
+  grafana-agent-resources:
+  - apiVersion: v2
+    appVersion: 0.0.0
+    created: "2023-03-14T14:16:45.046959627Z"
+    description: A Helm chart for creating PodLogs and PodMonitors for releases that
+      don't support them in their own chart.
+    digest: 43a139b6b7c87773a9cfdb12329d71bda2dd9e979f7ab998c67998d54172c856
+    keywords:
+    - PodLogs
+    - PodMonitors
+    name: grafana-agent-resources
+    type: application
+    urls:
+    - https://github.com/portswigger-cloud/utility-charts/releases/download/grafana-agent-resources-0.0.1-alpha.1/grafana-agent-resources-0.0.1-alpha.1.tgz
+    version: 0.0.1-alpha.1
   rds-ca-certs:
   - apiVersion: v2
     created: "2023-03-06T16:45:05.742384416Z"
@@ -153,4 +168,4 @@ entries:
     urls:
     - https://github.com/portswigger-cloud/utility-charts/releases/download/rds-ca-certs-0.0.1/rds-ca-certs-0.0.1.tgz
     version: 0.0.1
-generated: "2023-03-08T16:28:19.483753563Z"
+generated: "2023-03-14T14:16:45.046995927Z"
