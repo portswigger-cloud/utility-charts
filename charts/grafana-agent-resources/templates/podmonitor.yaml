@@ -14,10 +14,6 @@ spec:
   - interval: 15s
     path: {{ $config.podMonitor.path }}
     port: {{ $config.podMonitor.port | quote }}
-  podTargetLabels:
-  - app.kubernetes.io/name
-  - app.kubernetes.io/app
-  - app.kubernetes.io/version
   selector:
     matchLabels: {{ toYaml $config.labelSelector | nindent 6}}
 {{- end }}
