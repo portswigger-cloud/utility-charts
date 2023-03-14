@@ -1,0 +1,30 @@
+suite: PodLogs configuration
+templates:
+- podlogs.yaml
+tests:
+- it: should not create a PodLogs resource when $config.podLogs.enabled is false
+  values:
+  - ./values/single.yaml
+  set:
+    pods.traefik.podLogs.enabled: false
+  asserts:
+  - hasDocuments:
+      count: 0
+- it: should create a PodLogs resource when configured with a single pod
+  values:
+  - ./values/single.yaml
+  asserts:
+  - hasDocuments:
+      count: 1
+  - equal:
+      path: metadata.name
+      value: traefik
+  - equal:
+      path: spec.namespaceSelector.matchNames
+      value:
+      - ingress
+  - equal:
+      path: spec.selector.matchLabels
+      value:
+        app.kubernetes.io/instance: traefik-ingress
+        app.kubernetes.io/name: traefik

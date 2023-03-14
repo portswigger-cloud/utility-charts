@@ -1,0 +1,17 @@
+{{- range $name, $config := .Values.pods }}
+{{- if $config.podLogs.enabled }}
+---
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: PodLogs
+metadata:
+  name: {{ $name }}
+spec:
+  pipelineStages:
+  - docker: {}
+  namespaceSelector:
+    matchNames:
+    - {{ $config.namespace }}
+  selector:
+    matchLabels: {{ toYaml $config.labelSelector | nindent 6}}
+{{- end }}
+{{- end }}

@@ -1,0 +1,9 @@
+suite: Default configuration
+templates:
+- podlogs.yaml
+- podmonitor.yaml
+tests:
+- it: should not create PodLogs or PodMonitor by default
+  asserts:
+  - hasDocuments:
+      count: 0

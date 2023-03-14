@@ -1,0 +1,12 @@
+pods:
+  traefik:
+    namespace: ingress
+    labelSelector:
+      app.kubernetes.io/instance: traefik-ingress
+      app.kubernetes.io/name: traefik
+    podLogs:
+      enabled: true
+    podMonitor:
+      enabled: true
+      path: /metrics
+      port: 9100

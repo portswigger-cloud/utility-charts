@@ -1,0 +1,13 @@
+apiVersion: v2
+name: grafana-agent-resources
+description: A Helm chart for creating PodLogs and PodMonitors for releases that don't support them in their own chart.
+
+type: application
+
+version: 0.0.1-alpha.1
+
+appVersion: 0.0.0
+
+keywords:
+  - PodLogs
+  - PodMonitors

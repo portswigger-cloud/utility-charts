@@ -1,0 +1,25 @@
+{{- range $name, $config := .Values.pods }}
+{{- if $config.podMonitor.enabled }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ $name }}
+spec:
+  jobLabel: {{ $config.namespace }}-{{ $name }}
+  namespaceSelector:
+    matchNames:
+    - {{ $config.namespace }}
+  podMetricsEndpoints:
+  - interval: 15s
+    path: {{ $config.podMonitor.path }}
+    port: {{ $config.podMonitor.port }}
+
+  podTargetLabels:
+  - app.kubernetes.io/name
+  - app.kubernetes.io/app
+  - app.kubernetes.io/version
+  selector:
+    matchLabels: {{ toYaml $config.labelSelector | nindent 6}}
+{{- end }}
+{{- end }}
