@@ -1,0 +1,8 @@
+suite: RBAC configuration
+templates:
+  - kubernetes/rbac.yaml
+tests:
+  - it: should not create RBAC resources by default
+    asserts:
+      - hasDocuments:
+          count: 0

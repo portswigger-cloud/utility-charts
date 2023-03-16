@@ -90,6 +90,7 @@ initContainers: []
 
 serviceAccount:
   enabled: true
+  automountServiceAccountToken: false
   annotations: {}
   # eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/my-role
 
@@ -136,3 +137,18 @@ ciliumNetworkPolicy:
   ingressControllerEndpointMatchLabels:
     k8s:io.kubernetes.pod.namespace: ingress
     app.kubernetes.io/name: nginx
+
+rbac:
+  enabled: false
+  kind: Role
+  rules: []
+  # - apiGroups:
+  #   - ""
+  #   resources:
+  #   - pods
+  #   - pods/log
+  #   - namespaces
+  #   verbs:
+  #   - get
+  #   - list
+  #   - watch

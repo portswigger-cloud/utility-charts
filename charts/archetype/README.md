@@ -1,6 +1,6 @@
 # archetype
 
-![Version: 0.0.1-alpha.6](https://img.shields.io/badge/Version-0.0.1--alpha.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.0](https://img.shields.io/badge/AppVersion-0.0.0-informational?style=flat-square)
+![Version: 0.0.1-alpha.7](https://img.shields.io/badge/Version-0.0.1--alpha.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.0](https://img.shields.io/badge/AppVersion-0.0.0-informational?style=flat-square)
 
 A Helm "monochart" for deploying common application patterns
 
@@ -60,6 +60,9 @@ helm install archetype utility-charts/archetype
 | ports.app-port.expose | bool | `true` |  |
 | ports.app-port.port | int | `8080` |  |
 | ports.app-port.protocol | string | `"TCP"` |  |
+| rbac.enabled | bool | `false` |  |
+| rbac.kind | string | `"Role"` |  |
+| rbac.rules | list | `[]` |  |
 | resources.cpu | string | `"100m"` |  |
 | resources.limits | object | `{}` |  |
 | resources.memory | string | `"64Mi"` |  |
@@ -71,6 +74,7 @@ helm install archetype utility-charts/archetype
 | securityContext.runAsUser | int | `1000` |  |
 | service.enabled | bool | `true` |  |
 | serviceAccount.annotations | object | `{}` |  |
+| serviceAccount.automountServiceAccountToken | bool | `false` |  |
 | serviceAccount.enabled | bool | `true` |  |
 
 ---
