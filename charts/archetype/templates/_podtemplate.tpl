@@ -21,7 +21,6 @@ Outputs a pod spec for use in different resources.
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "archetype.serviceAccountName" . }}
-      automountServiceAccountToken: {{ .Values.pod.automountServiceAccountToken }}
       terminationGracePeriodSeconds: {{ .Values.pod.terminationGracePeriodSeconds }}
       {{- with .Values.podSecurityContext }}
       securityContext:
