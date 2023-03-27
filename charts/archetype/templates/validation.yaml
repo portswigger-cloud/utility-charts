@@ -1,3 +1,3 @@
-{{- if eq .Values.image.tag "latest" }}
+{{- if eq (quote .Values.image.tag) "latest" }}
 {{- fail "Use of the latest tag is a bad idea." }}
 {{- end -}}
