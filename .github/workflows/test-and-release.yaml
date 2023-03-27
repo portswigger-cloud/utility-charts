@@ -1,6 +1,7 @@
 name: Test and Release utility-charts
 
 on:
+  workflow_dispatch: {}
   push:
     branches:
     - main
