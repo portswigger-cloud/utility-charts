@@ -28,7 +28,7 @@ Common labels for all resources
 */}}
 {{- define "archetype.labels" -}}
 {{ include "archetype.labelselector" . }}
-app.kubernetes.io/version: {{ .Values.image.tag }}
+app.kubernetes.io/version: {{ quote .Values.image.tag }}
 app.kubernetes.io/part-of: {{ template "archetype.name" . }}
 app.kubernetes.io/managed-by: Helm
 helm.sh/chart: {{ template "archetype.chart" . }}
