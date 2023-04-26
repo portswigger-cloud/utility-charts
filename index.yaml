@@ -3,6 +3,21 @@ entries:
   archetype:
   - apiVersion: v2
     appVersion: 0.0.0
+    created: "2023-04-26T12:26:58.364282189Z"
+    description: A Helm "monochart" for deploying common application patterns
+    digest: 4020c8c097db6fbcaaa5b773279a7f6bccdcf239cfd1f86d2c0e858627e10ec4
+    keywords:
+    - app
+    - cron
+    - deployment
+    - statefulset
+    name: archetype
+    type: application
+    urls:
+    - https://github.com/portswigger-cloud/utility-charts/releases/download/archetype-0.0.1-alpha.13/archetype-0.0.1-alpha.13.tgz
+    version: 0.0.1-alpha.13
+  - apiVersion: v2
+    appVersion: 0.0.0
     created: "2023-04-26T12:03:38.475660832Z"
     description: A Helm "monochart" for deploying common application patterns
     digest: 5a63eec1a8b77015db8acb8a9fbc35468ec33ec247b040790b8c5e8058dee7b9
@@ -301,4 +316,4 @@ entries:
     urls:
     - https://github.com/portswigger-cloud/utility-charts/releases/download/rds-ca-certs-0.0.1/rds-ca-certs-0.0.1.tgz
     version: 0.0.1
-generated: "2023-04-26T12:03:38.476122149Z"
+generated: "2023-04-26T12:26:58.364700506Z"
