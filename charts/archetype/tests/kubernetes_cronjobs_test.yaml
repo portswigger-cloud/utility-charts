@@ -1,0 +1,45 @@
+suite: Cronjobs configuration
+templates:
+  - kubernetes/cronjobs.yaml
+tests:
+  - it: should not create cronjob resources by default
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: should create the "say-hello" cronjob when enabled
+    set:
+      cronjobs:
+        say-hello:
+          enabled: true
+          annotations: {}
+          labels: {}
+          schedule: "*/20 * * * *"
+          restartPolicy: OnFailure
+          containers:
+          - name: cronjob
+            image: busybox:1.28
+            imagePullPolicy: Always
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: metadata.name
+          value: say-hello
+      - equal:
+          path: spec.schedule
+          value: '*/20 * * * *'
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.containers
+          value:
+          - command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+            image: busybox:1.28
+            imagePullPolicy: Always
+            name: cronjob

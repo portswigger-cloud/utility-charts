@@ -17,6 +17,29 @@ pod:
   securityContext:
     fsGroup: 1000
     fsGroupChangePolicy: "OnRootMismatch"
+  additionalVolumeMounts: []
+  # - name: dsdsocket
+  #   mountPath: /socket
+  additionalVolumes: []
+  # - name: dsdsocket
+  #   hostPath:
+  #     path: /var/run/statsd-exporter
+
+cronjobs: {}
+  # say-hello:
+  #   enabled: false
+  #   annotations: {}
+  #   labels: {}
+  #   schedule: "*/20 * * * *"
+  #   restartPolicy: OnFailure
+  #   containers:
+  #   - name: cronjob
+  #     image: busybox:1.28
+  #     imagePullPolicy: Always
+  #     command:
+  #     - /bin/sh
+  #     - -c
+  #     - date; echo Hello from the Kubernetes cluster
 
 resources:
   cpu: "100m"

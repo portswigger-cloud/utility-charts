@@ -1,0 +1,31 @@
+{{- $root := . }}
+{{- range $cjName, $cj := .Values.cronjobs }}
+{{- if $cj.enabled -}}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ $cjName }}
+  labels:
+  {{- include "archetype.labels" $root | nindent 4 }}
+  {{- with $cj.labels }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  annotations:
+  {{- with $cj.annotations }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  schedule: {{ $cj.schedule | quote }}
+  concurrencyPolicy: {{ $cj.concurrencyPolicy | default "Allow" }}
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          {{- toYaml $cj.containers | nindent 10 }}
+          restartPolicy: {{ $cj.restartPolicy }}
+{{- end }}
+{{- end }}

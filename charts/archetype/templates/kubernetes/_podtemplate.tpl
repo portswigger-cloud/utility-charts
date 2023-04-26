@@ -76,8 +76,26 @@ Outputs a pod spec for use in different resources.
         args:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        {{- with .Values.env }}
         env:
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: IMAGE_TAG
+            value: {{ .Values.image.tag }}
+        {{- with .Values.env }}
           {{- toYaml . | nindent 10 }}
         {{- end }}
         {{- with .Values.envFrom }}
@@ -87,6 +105,9 @@ Outputs a pod spec for use in different resources.
         volumeMounts:
         - mountPath: /tmp
           name: tmp-volume
+        {{- if .Values.pod.additionalVolumeMounts }}
+          {{- toYaml .Values.pod.additionalVolumeMounts | nindent 10 }}
+        {{- end }}
       {{- with .Values.pod.affinity }}
       affinity:
         {{- tpl (toYaml .Values.pod.affinity) . | nindent 8 }}
@@ -106,4 +127,7 @@ Outputs a pod spec for use in different resources.
       volumes:
       - name: tmp-volume
         emptyDir: {}
+      {{- if .Values.pod.additionalVolumes }}
+        {{- toYaml .Values.pod.additionalVolumes | nindent 8 }}
+      {{- end }}
 {{- end }}
