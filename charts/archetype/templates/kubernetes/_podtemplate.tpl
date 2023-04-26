@@ -94,7 +94,7 @@ Outputs a pod spec for use in different resources.
               fieldRef:
                 fieldPath: status.podIP
           - name: IMAGE_TAG
-            value: {{ .Values.image.tag }}
+            value: {{ .Values.image.tag | quote }}
         {{- with .Values.env }}
           {{- toYaml . | nindent 10 }}
         {{- end }}
