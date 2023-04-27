@@ -1,4 +1,4 @@
-{{- if .Values.deployment.enabled -}}
+{{- if and .Values.deployment.enabled (eq .Values.deployment.kind "Deployment") -}}
 apiVersion: apps/v1
 kind: {{ .Values.deployment.kind }}
 metadata:
@@ -18,11 +18,10 @@ spec:
   selector:
     matchLabels:
       {{- include "archetype.labelselector" . | nindent 6 }}
+  {{- with .Values.deployment.updateStrategy }}
   strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 50%
-      maxUnavailable: 25%
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   minReadySeconds: 5
   template: {{ template "archetype.podTemplate" . }}
   {{- end -}}

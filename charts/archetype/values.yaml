@@ -8,6 +8,11 @@ deployment:
   replicas: 1
   labels: {}
   annotations: {}
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 25%
 
 pod:
   annotations: {}
