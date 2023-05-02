@@ -48,6 +48,6 @@ jobs:
 
   post-to-a-slack-channel-on-failure:
     if: ${{ failure() }}
-    uses: portswigger-cloud/github-actions/.github/workflows/shared-on-fail-slack-notifier.yaml@main
+    uses: ./.github/workflows/shared-on-fail-slack-notifier.yaml
     needs: test-and-release
     secrets: inherit
