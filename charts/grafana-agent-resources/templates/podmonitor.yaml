@@ -5,6 +5,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
   name: {{ $name }}
+  namespace: {{ $config.namespace }}
 spec:
   jobLabel: {{ $config.namespace }}-{{ $name }}
   namespaceSelector:

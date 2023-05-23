@@ -22,6 +22,9 @@ tests:
       path: metadata.name
       value: traefik
   - equal:
+      path: metadata.namespace
+      value: ingress
+  - equal:
       path: spec.namespaceSelector.matchNames
       value:
       - ingress

@@ -5,6 +5,7 @@ apiVersion: monitoring.grafana.com/v1alpha1
 kind: PodLogs
 metadata:
   name: {{ $name }}
+  namespace: {{ $config.namespace }}
 spec:
   pipelineStages:
   - docker: {}
