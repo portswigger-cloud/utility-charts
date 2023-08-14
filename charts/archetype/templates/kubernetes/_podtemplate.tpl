@@ -128,6 +128,6 @@ Outputs a pod spec for use in different resources.
       - name: tmp-volume
         emptyDir: {}
       {{- if .Values.pod.additionalVolumes }}
-        {{- toYaml .Values.pod.additionalVolumes | nindent 8 }}
+      {{- toYaml .Values.pod.additionalVolumes | nindent 6 }}
       {{- end }}
 {{- end }}
