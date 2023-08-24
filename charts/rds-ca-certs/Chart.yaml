@@ -1,4 +1,4 @@
 apiVersion: v2
 name: rds-ca-certs
-version: 0.0.2
+version: 0.0.3
 description: RDS CA cert file as a ConfigMap
