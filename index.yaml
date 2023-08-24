@@ -345,6 +345,14 @@ entries:
     version: 0.0.1-alpha.1
   rds-ca-certs:
   - apiVersion: v2
+    created: "2023-08-24T09:19:55.967244505Z"
+    description: RDS CA cert file as a ConfigMap
+    digest: a2ebbe8d5eaf6f02d4f43b84c5f13afa7ec184e5eca04a56d617e64f0c23dd35
+    name: rds-ca-certs
+    urls:
+    - https://github.com/portswigger-cloud/utility-charts/releases/download/rds-ca-certs-0.0.3/rds-ca-certs-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
     created: "2023-03-06T16:45:05.742384416Z"
     description: RDS CA cert file as a ConfigMap
     digest: 694d672693444c4684734be575b026fa0b387b3a2663a81d46f137fa0d48b1a6
@@ -360,4 +368,4 @@ entries:
     urls:
     - https://github.com/portswigger-cloud/utility-charts/releases/download/rds-ca-certs-0.0.1/rds-ca-certs-0.0.1.tgz
     version: 0.0.1
-generated: "2023-08-14T13:24:21.773354391Z"
+generated: "2023-08-24T09:19:55.967499807Z"
