@@ -106,7 +106,7 @@ Outputs a pod spec for use in different resources.
         - mountPath: /tmp
           name: tmp-volume
         {{- if .Values.pod.additionalVolumeMounts }}
-          {{- toYaml .Values.pod.additionalVolumeMounts | nindent 10 }}
+        {{- toYaml .Values.pod.additionalVolumeMounts | nindent 8 }}
         {{- end }}
       {{- with .Values.pod.affinity }}
       affinity:
