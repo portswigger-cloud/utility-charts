@@ -30,7 +30,8 @@ pod:
   #   hostPath:
   #     path: /var/run/statsd-exporter
 
-cronjobs: {}
+cronjobs:
+  {}
   # say-hello:
   #   enabled: false
   #   annotations: {}
@@ -84,9 +85,10 @@ ingress:
   className: ""
   host: ""
   paths:
-  - "/"
+    - "/"
 
-lifecycle: {}
+lifecycle:
+  {}
   # preStop:
   #   exec:
   #     command: ["/bin/sh", "-c", "sleep 40"]
@@ -125,6 +127,7 @@ extraDeploy: []
 
 podLogs:
   enabled: false
+  pipelineStages: []
 
 podMonitor:
   enabled: false

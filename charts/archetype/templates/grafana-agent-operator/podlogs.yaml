@@ -5,7 +5,10 @@ metadata:
   name: {{ template "archetype.name" . }}
 spec:
   pipelineStages:
-  - docker: {}
+  - cri: {}
+  {{- with .Values.podLogs.pipelineStages }}
+  {{- . | toYaml | nindent 2 }}
+  {{- end }}
   namespaceSelector:
     matchNames:
     - {{ .Release.Namespace }}
