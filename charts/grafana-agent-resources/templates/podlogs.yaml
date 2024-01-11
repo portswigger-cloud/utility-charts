@@ -8,7 +8,10 @@ metadata:
   namespace: {{ $config.namespace }}
 spec:
   pipelineStages:
-  - docker: {}
+  - cri: {}
+  {{- with $config.podLogs.pipelineStages }}
+  {{- . | toYaml | nindent 2 }}
+  {{- end }}
   namespaceSelector:
     matchNames:
     - {{ $config.namespace }}
