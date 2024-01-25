@@ -17,15 +17,17 @@ metadata:
   {{- end }}
 spec:
   schedule: {{ $cj.schedule | quote }}
-  concurrencyPolicy: {{ $cj.concurrencyPolicy | default "Allow" }}
+  concurrencyPolicy: {{ $cj.concurrencyPolicy | default "Forbid" }}
+  backoffLimit: {{ $cj.backoffLimit | default 0 }}
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
       template:
         spec:
+          serviceAccountName: {{ $cj.serviceAccountName| default "default" }}
           containers:
           {{- toYaml $cj.containers | nindent 10 }}
-          restartPolicy: {{ $cj.restartPolicy }}
+          restartPolicy: {{ $cj.restartPolicy | default "Never" }}
 {{- end }}
 {{- end }}

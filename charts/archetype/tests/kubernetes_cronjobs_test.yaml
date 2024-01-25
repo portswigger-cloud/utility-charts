@@ -14,15 +14,16 @@ tests:
           annotations: {}
           labels: {}
           schedule: "*/20 * * * *"
+          serviceAccountName: hello
           restartPolicy: OnFailure
           containers:
-          - name: cronjob
-            image: busybox:1.28
-            imagePullPolicy: Always
-            command:
-            - /bin/sh
-            - -c
-            - date; echo Hello from the Kubernetes cluster
+            - name: cronjob
+              image: busybox:1.28
+              imagePullPolicy: Always
+              command:
+                - /bin/sh
+                - -c
+                - date; echo Hello from the Kubernetes cluster
 
     asserts:
       - hasDocuments:
@@ -32,14 +33,17 @@ tests:
           value: say-hello
       - equal:
           path: spec.schedule
-          value: '*/20 * * * *'
+          value: "*/20 * * * *"
+      - equal:
+          path: spec.jobTemplate.spec.template.spec.serviceAccountName
+          value: hello
       - equal:
           path: spec.jobTemplate.spec.template.spec.containers
           value:
-          - command:
-            - /bin/sh
-            - -c
-            - date; echo Hello from the Kubernetes cluster
-            image: busybox:1.28
-            imagePullPolicy: Always
-            name: cronjob
+            - command:
+                - /bin/sh
+                - -c
+                - date; echo Hello from the Kubernetes cluster
+              image: busybox:1.28
+              imagePullPolicy: Always
+              name: cronjob
