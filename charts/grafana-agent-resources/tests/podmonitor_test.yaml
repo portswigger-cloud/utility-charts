@@ -36,3 +36,36 @@ tests:
       value:
         app.kubernetes.io/instance: traefik-ingress
         app.kubernetes.io/name: traefik
+- it: should create a PodMonitor resource with auth when configured with auth
+  values:
+    - ./values/auth.yaml
+  asserts:
+    - hasDocuments:
+        count: 1
+    - isKind:
+        of: PodMonitor
+    - equal:
+        path: metadata.name
+        value: traefik
+    - equal:
+        path: spec.namespaceSelector.matchNames
+        value:
+          - ingress
+    - equal:
+        path: spec.podMetricsEndpoints
+        value:
+          - interval: 15s
+            path: /metrics
+            port: "9100"
+            basicAuth:
+              password:
+                key: password
+                name: secret-name
+              username:
+                key: username
+                name: secret-name
+    - equal:
+        path: spec.selector.matchLabels
+        value:
+          app.kubernetes.io/instance: traefik-ingress
+          app.kubernetes.io/name: traefik

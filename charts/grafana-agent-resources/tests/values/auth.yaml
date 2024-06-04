@@ -1,0 +1,19 @@
+pods:
+  traefik:
+    namespace: ingress
+    labelSelector:
+      app.kubernetes.io/instance: traefik-ingress
+      app.kubernetes.io/name: traefik
+    podLogs:
+      enabled: true
+    podMonitor:
+      enabled: true
+      path: /metrics
+      port: 9100
+      basicAuth:
+        username:
+          name: secret-name
+          key: username
+        password:
+          name: secret-name
+          key: password

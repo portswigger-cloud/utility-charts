@@ -15,6 +15,15 @@ spec:
   - interval: 15s
     path: {{ $config.podMonitor.path }}
     port: {{ $config.podMonitor.port | quote }}
+    {{ if $config.podMonitor.basicAuth }}
+    basicAuth:
+      username:
+        name: {{ $config.podMonitor.basicAuth.username.name }}
+        key: {{ $config.podMonitor.basicAuth.username.key }}
+      password:
+        name: {{ $config.podMonitor.basicAuth.password.name }}
+        key: {{ $config.podMonitor.basicAuth.password.key }}
+    {{ end }}
   selector:
     matchLabels: {{ toYaml $config.labelSelector | nindent 6}}
 {{- end }}

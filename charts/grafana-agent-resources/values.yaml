@@ -11,3 +11,10 @@ pods:
   #     enabled: true
   #     path: /metrics
   #     port: 9100
+  #     basicAuth:
+  #       username:
+  #         name: secret-name
+  #         key: password
+  #       password:
+  #         name: secret-name
+  #         key: username
