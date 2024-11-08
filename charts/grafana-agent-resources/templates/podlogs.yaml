@@ -38,6 +38,26 @@ spec:
   selector:
     matchLabels: {{ toYaml $config.labelSelector | nindent 6}}
   relabelings:
+    - action: replace
+      sourceLabels:
+        - __meta_kubernetes_pod_container_name
+      targetLabel: container
+    - action: replace
+      sourceLabels:
+        - __meta_kubernetes_pod_name
+      targetLabel: pod
+    - action: replace
+      sourceLabels:
+        - __meta_kubernetes_namespace
+      targetLabel: namespace
+    - action: replace
+      sourceLabels:
+        - __meta_kubernetes_pod_container_id
+      targetLabel: tmp_container_id
+    - action: replace
+      sourceLabels:
+        - __meta_kubernetes_pod_uid
+      targetLabel: pod_uid
     {{- with $config.podLogs.relabelings }}
     {{- . | toYaml | nindent 4 }}
     {{- end }}
