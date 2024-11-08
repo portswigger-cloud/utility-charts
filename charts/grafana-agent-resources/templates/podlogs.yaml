@@ -1,3 +1,4 @@
+{{- if  (eq .Values.podLogsVersion "v1alpha1") }}
 {{- range $name, $config := .Values.pods }}
 {{- if $config.podLogs.enabled }}
 ---
@@ -17,5 +18,29 @@ spec:
     - {{ $config.namespace }}
   selector:
     matchLabels: {{ toYaml $config.labelSelector | nindent 6}}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{- if (eq .Values.podLogsVersion "v1alpha2") }}
+{{- range $name, $config := .Values.pods }}
+{{- if $config.podLogs.enabled }}
+---
+apiVersion: monitoring.grafana.com/v1alpha2
+kind: PodLogs
+metadata:
+  name: {{ $name }}
+  namespace: {{ $config.namespace }}
+spec:
+  namespaceSelector:
+    matchLabels:
+      name: {{ $config.namespace }}
+  selector:
+    matchLabels: {{ toYaml $config.labelSelector | nindent 6}}
+  relabelings:
+    {{- with $config.podLogs.relabelings }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
+{{- end }}
 {{- end }}
 {{- end }}

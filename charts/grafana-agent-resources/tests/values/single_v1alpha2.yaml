@@ -1,4 +1,4 @@
-podLogsVersion: v1alpha1
+podLogsVersion: v1alpha2
 pods:
   traefik:
     namespace: ingress

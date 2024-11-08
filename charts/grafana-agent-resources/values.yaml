@@ -1,3 +1,4 @@
+podLogsVersion: v1alpha1
 pods:
   {}
   # traefik:

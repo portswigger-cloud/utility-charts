@@ -10,14 +10,15 @@ tests:
   asserts:
   - hasDocuments:
       count: 0
-- it: should create a PodLogs resource when configured with a single pod
+- it: should create a PodLogs v1alpha1 resource when configured with a single pod
   values:
   - ./values/single.yaml
   asserts:
   - hasDocuments:
       count: 1
-  - isKind:
-      of: PodLogs
+  - containsDocument:
+      kind: PodLogs
+      apiVersion: monitoring.grafana.com/v1alpha1
   - equal:
       path: metadata.name
       value: traefik
@@ -33,3 +34,27 @@ tests:
       value:
         app.kubernetes.io/instance: traefik-ingress
         app.kubernetes.io/name: traefik
+- it: should create a PodLogs v1alpha2 resource when configured with a single pod
+  values:
+    - ./values/single_v1alpha2.yaml
+  asserts:
+    - hasDocuments:
+        count: 1
+    - containsDocument:
+        kind: PodLogs
+        apiVersion: monitoring.grafana.com/v1alpha2
+    - equal:
+        path: metadata.name
+        value: traefik
+    - equal:
+        path: metadata.namespace
+        value: ingress
+    - equal:
+        path: spec.namespaceSelector.matchLabels
+        value:
+          name: ingress
+    - equal:
+        path: spec.selector.matchLabels
+        value:
+          app.kubernetes.io/instance: traefik-ingress
+          app.kubernetes.io/name: traefik

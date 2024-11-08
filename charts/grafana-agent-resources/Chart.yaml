@@ -4,7 +4,7 @@ description: A Helm chart for creating PodLogs and PodMonitors for releases that
 
 type: application
 
-version: 0.0.1-alpha.6
+version: 0.0.1-alpha.7
 
 appVersion: 0.0.0
 
