@@ -1,4 +1,5 @@
 {{- if .Values.podLogs.enabled }}
+{{- if eq .Values.podLogs.version "v1alpha1"}}
 apiVersion: monitoring.grafana.com/v1alpha1
 kind: PodLogs
 metadata:
@@ -15,4 +16,40 @@ spec:
   selector:
     matchLabels:
       {{- include "archetype.labelselector" . | nindent 6 }}
+{{- end }}
+
+{{- if eq .Values.podLogs.version "v1alpha2"}}
+apiVersion: monitoring.grafana.com/v1alpha2
+kind: PodLogs
+metadata:
+  name: {{ template "archetype.name" . }}
+spec:
+  namespaceSelector:
+    matchLabels:
+      kubernetes.io/metadata.name: {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+        {{- include "archetype.labelselector" . | nindent 6 }}
+  relabelings:
+    - action: replace
+      sourceLabels:
+        - __meta_kubernetes_pod_container_name
+      targetLabel: container
+    - action: replace
+      sourceLabels:
+        - __meta_kubernetes_pod_name
+      targetLabel: pod
+    - action: replace
+      sourceLabels:
+        - __meta_kubernetes_namespace
+      targetLabel: namespace
+    - action: replace
+      sourceLabels:
+        - __meta_kubernetes_pod_container_id
+      targetLabel: tmp_container_id
+    - action: replace
+      sourceLabels:
+        - __meta_kubernetes_pod_uid
+      targetLabel: pod_uid
+{{- end }}
 {{- end }}

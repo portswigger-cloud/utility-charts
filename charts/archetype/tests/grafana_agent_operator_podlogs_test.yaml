@@ -6,7 +6,7 @@ tests:
     asserts:
       - hasDocuments:
           count: 0
-  - it: should create PodLogs with correct selectors when enabled
+  - it: should create PodLogs with correct selectors when enabled with default version
     release:
       name: testing
       namespace: testns
@@ -15,6 +15,8 @@ tests:
     asserts:
       - isKind:
           of: PodLogs
+      - isAPIVersion:
+          of: monitoring.grafana.com/v1alpha1
       - equal:
           path: metadata.name
           value: testing
@@ -22,6 +24,30 @@ tests:
           path: spec.namespaceSelector.matchNames
           value:
             - testns
+      - equal:
+          path: spec.selector.matchLabels
+          value:
+            app.kubernetes.io/app: testing
+            app.kubernetes.io/instance: archetype-testing
+  - it: should create PodLogs with correct selectors when enabled with version v1alpha2
+    release:
+      name: testing
+      namespace: testns
+    set:
+      podLogs.enabled: true
+      podLogs.version: v1alpha2
+    asserts:
+      - isKind:
+          of: PodLogs
+      - isAPIVersion:
+          of: monitoring.grafana.com/v1alpha2
+      - equal:
+          path: metadata.name
+          value: testing
+      - equal:
+          path: spec.namespaceSelector.matchLabels
+          value:
+            kubernetes.io/metadata.name: testns
       - equal:
           path: spec.selector.matchLabels
           value:
