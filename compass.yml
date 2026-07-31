@@ -1,0 +1,13 @@
+name: utility-charts
+id: 'ari:cloud:compass:ca53ac44-e1d5-4f18-9b78-0cfa4ea53aa9:component/5a457f06-865e-415d-9c51-e5e2eff545dd/e1b58fe7-228e-4814-b50d-723db6414924'
+slug: utility-charts
+configVersion: 1
+typeId: CLOUD_RESOURCE
+ownerId: 'ari:cloud:identity::team/793aa195-1b2d-44e4-8fd5-6aa1f3c273e9'
+fields:
+  lifecycle: Active
+  tier: 4
+  isMonorepoProject: false
+links:
+  - type: REPOSITORY
+    url: 'https://github.com/portswigger-cloud/utility-charts'
